@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "downloads.html", "use": "@vercel/static" },
+    { "src": "joke-generator.html", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" },
+    { "src": "vendor/**", "use": "@vercel/static" },
+    { "src": "public/downloads/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/downloads", "dest": "/downloads.html" },
+    { "src": "/downloads.html", "dest": "/downloads.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
