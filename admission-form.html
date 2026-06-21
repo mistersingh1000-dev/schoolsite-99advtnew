@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="DEMS School Admission Form - Apply Now">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>DEMS Admission Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+            font-weight: 700;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-header h1 {
+                font-size: 28px;
+            }
+
+            .submit-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>DEMS Admission Form</h1>
+            <p>Join Dahanukar English Medium School</p>
+        </div>
+
+        <div class="form-info">
+            📌 Please fill out all required fields (*) below. Admissions open for 2025-26 academic year.
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="admissionForm" onsubmit="handleSubmit(event)">
+            <!-- STUDENT INFORMATION -->
+            <div class="form-section">
+                <h3>📋 Student Information</h3>
+
+                <div class="form-group">
+                    <label for="studentName" class="required">Full Name</label>
+                    <input type="text" id="studentName" name="studentName" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dob" class="required">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender" class="required">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="applyingFor" class="required">Applying For (Class)</label>
+                    <select id="applyingFor" name="applyingFor" required>
+                        <option value="">Select Class</option>
+                        <option value="Pre-Primary">Pre-Primary (PP)</option>
+                        <option value="Junior KG">Junior KG</option>
+                        <option value="Senior KG">Senior KG</option>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
+                        <option value="Class 4">Class 4</option>
+                        <option value="Class 5">Class 5</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="currentSchool">Current School (if applicable)</label>
+                    <input type="text" id="currentSchool" name="currentSchool" placeholder="Enter current school name">
+                </div>
+            </div>
+
+            <!-- PARENT/GUARDIAN INFORMATION -->
+            <div class="form-section">
+                <h3>👨‍👩‍👧 Parent/Guardian Information</h3>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fatherName" class="required">Father's Name</label>
+                        <input type="text" id="fatherName" name="fatherName" placeholder="Father's full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="motherName" class="required">Mother's Name</label>
+                        <input type="text" id="motherName" name="motherName" placeholder="Mother's full name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fatherPhone" class="required">Father's Phone</label>
+                        <input type="tel" id="fatherPhone" name="fatherPhone" placeholder="10-digit mobile number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="motherPhone">Mother's Phone</label>
+                        <input type="tel" id="motherPhone" name="motherPhone" placeholder="10-digit mobile number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="parentEmail" class="required">Parent Email</label>
+                    <input type="email" id="parentEmail" name="parentEmail" placeholder="parent@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="occupation">Parents' Occupation</label>
+                    <input type="text" id="occupation" name="occupation" placeholder="e.g., Engineer, Doctor, Business, etc.">
+                </div>
+            </div>
+
+            <!-- ADDRESS INFORMATION -->
+            <div class="form-section">
+                <h3>🏠 Address Information</h3>
+
+                <div class="form-group">
+                    <label for="address" class="required">Residential Address</label>
+                    <textarea id="address" name="address" placeholder="Enter complete address" rows="3" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city" class="required">City</label>
+                        <input type="text" id="city" name="city" placeholder="City" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode" class="required">Pincode</label>
+                        <input type="text" id="pincode" name="pincode" placeholder="6-digit pincode" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACADEMIC INFORMATION -->
+            <div class="form-section">
+                <h3>📚 Academic Information</h3>
+
+                <div class="form-group">
+                    <label for="previousPercentage">Previous Year Percentage/Grade</label>
+                    <input type="text" id="previousPercentage" name="previousPercentage" placeholder="e.g., 85%, A+, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="specialization">Special Interests/Talents</label>
+                    <input type="text" id="specialization" name="specialization" placeholder="e.g., Sports, Music, Art, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalInfo">Any Additional Information</label>
+                    <textarea id="additionalInfo" name="additionalInfo" placeholder="Tell us anything special about your child..." rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- DECLARATION -->
+            <div class="form-section">
+                <h3>✓ Declaration</h3>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: start; gap: 10px; font-weight: 400;">
+                        <input type="checkbox" id="declaration" name="declaration" required style="margin-top: 4px;">
+                        <span>I declare that all information provided above is true and correct. I have read and understood the admission policies of DEMS.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTONS -->
+            <div class="submit-group">
+                <button type="submit" class="btn btn-submit" id="submitBtn">
+                    Submit Application
+                </button>
+                <button type="reset" class="btn btn-reset" onclick="resetForm()">
+                    Clear Form
+                </button>
+            </div>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Website</a>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form data
+            const formData = new FormData(document.getElementById('admissionForm'));
+            const data = Object.fromEntries(formData);
+
+            // Validate phone numbers
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(data.fatherPhone)) {
+                showAlert('❌ Please enter a valid 10-digit phone number', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+            // Send to backend (Formspree)
+            fetch('https://formspree.io/f/xvopkjzp', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    showAlert('✅ Application submitted successfully! We will contact you soon.', 'success');
+                    document.getElementById('admissionForm').reset();
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Hide form after success
+                    setTimeout(() => {
+                        document.getElementById('admissionForm').style.display = 'none';
+                    }, 2000);
+                } else {
+                    showAlert('❌ There was an error submitting your application. Please try again.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('❌ Error: ' + error.message, 'error');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Application';
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('admissionForm').reset();
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} show`;
+            alert.textContent = message;
+            container.innerHTML = '';
+            container.appendChild(alert);
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    alert.remove();
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

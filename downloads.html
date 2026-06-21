@@ -299,6 +299,7 @@
                 )
               ),
               h("div", { className: "flex items-center gap-3" },
+                h("a", { href: "admin.html", className: "hidden rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-black/10 backdrop-blur transition hover:bg-white hover:text-school-dark sm:inline-flex", title: "Admin upload panel" }, "🔐 Admin"),
                 h("a", { href: "index.html", className: "hidden rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-black/10 backdrop-blur transition hover:bg-white hover:text-school-dark sm:inline-flex" }, "Back to Website"),
                 h("button", {
                   onClick: function () { setDark(!dark); },

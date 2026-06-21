@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DEMS Admin - Upload Files">
+    <title>DEMS Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container { width: 100%; max-width: 900px; }
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            font-size: 36px;
+            font-weight: 900;
+            color: #667eea;
+            margin: 0;
+        }
+        .logo p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .credentials {
+            background: #f0f0f0;
+            border: 2px dashed #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .credentials h3 {
+            color: #667eea;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .cred-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+        .cred-value {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            flex: 1;
+            border: 1px solid #ddd;
+            font-weight: 600;
+        }
+        .copy-btn {
+            padding: 6px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .copy-btn:hover { background: #764ba2; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        .file-upload {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9ff;
+        }
+        .file-upload:hover { background: #f0f2ff; }
+        .file-upload input { display: none; }
+        .file-name {
+            margin-top: 10px;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .back-link a:hover {
+            color: #764ba2;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+        #loginSection, #adminSection { display: none; }
+        #loginSection.show, #adminSection.show { display: block; }
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            .stats { grid-template-columns: 1fr; }
+            .btn-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- LOGIN -->
+        <div id="loginSection" class="card show">
+            <div class="logo">
+                <h1>DEMS</h1>
+                <p>Admin Panel</p>
+            </div>
+
+            <div class="credentials">
+                <h3>🔐 TEST CREDENTIALS</h3>
+                <div class="cred-row">
+                    <span>Username:</span>
+                    <span class="cred-value">admin</span>
+                    <button class="copy-btn" onclick="copy('admin')">Copy</button>
+                </div>
+                <div class="cred-row">
+                    <span>Password:</span>
+                    <span class="cred-value">dems2025</span>
+                    <button class="copy-btn" onclick="copy('dems2025')">Copy</button>
+                </div>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">⚠️ Change password after first login!</p>
+            </div>
+
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="admin" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="dems2025" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Website</a>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div id="adminSection" class="card">
+            <div class="logo">
+                <h1>DEMS</h1>
+                <p>Upload Files</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalFiles">13</div>
+                    <div class="stat-label">Total Files</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="uploadedToday">0</div>
+                    <div class="stat-label">Uploaded Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSize">12 MB</div>
+                    <div class="stat-label">Total Size</div>
+                </div>
+            </div>
+
+            <form id="uploadForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>File Title *</label>
+                    <input type="text" id="fileTitle" placeholder="e.g., Exam Schedule" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="fileCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Results">Results</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Exams">Exams</option>
+                        <option value="Reports">Reports</option>
+                        <option value="Presentations">Presentations</option>
+                        <option value="Schedules">Schedules</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description (Optional)</label>
+                    <textarea id="fileDesc" placeholder="Brief description..." rows="2"></textarea>
+                </div>
+
+                <div class="info-box">
+                    📌 <strong>Upload Instructions:</strong><br>
+                    1. Fill form below<br>
+                    2. This registers file metadata<br>
+                    3. Upload actual file to /public/downloads/ folder in GitHub<br>
+                    4. File will appear on downloads.html within 2 minutes!
+                </div>
+
+                <div class="form-group">
+                    <label>Suggested Filename</label>
+                    <input type="text" id="suggestedName" placeholder="Will be auto-filled" readonly style="background: #f5f5f5;">
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Register & Continue</button>
+                    <button type="button" class="btn btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </form>
+
+            <div class="back-link">
+                <a href="downloads.html">View Downloads →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_USER = 'admin';
+        const ADMIN_PASS = 'dems2025';
+
+        function login(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            if (user === ADMIN_USER && pass === ADMIN_PASS) {
+                document.getElementById('loginSection').classList.remove('show');
+                document.getElementById('adminSection').classList.add('show');
+                showAlert('✅ Logged in!', 'success');
+            } else {
+                showAlert('❌ Invalid credentials', 'error');
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginSection').classList.add('show');
+            document.getElementById('adminSection').classList.remove('show');
+            document.getElementById('loginForm').reset();
+            document.getElementById('uploadForm').reset();
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('fileTitle').value;
+            const category = document.getElementById('fileCategory').value;
+            const desc = document.getElementById('fileDesc').value;
+
+            if (!title || !category) {
+                showAlert('❌ Fill all required fields', 'error');
+                return;
+            }
+
+            // Generate suggested filename
+            const filename = title.toLowerCase().replace(/\s+/g, '-') + '.file';
+
+            // Save to localStorage
+            const files = JSON.parse(localStorage.getItem('dems_files') || '[]');
+            files.push({
+                id: Date.now(),
+                title: title,
+                category: category,
+                description: desc,
+                filename: filename,
+                date: new Date().toLocaleDateString()
+            });
+            localStorage.setItem('dems_files', JSON.stringify(files));
+
+            // Update count
+            const uploaded = parseInt(localStorage.getItem('uploaded_today') || '0') + 1;
+            localStorage.setItem('uploaded_today', uploaded);
+
+            showAlert(`✅ File registered!\n\n📁 Upload to: /public/downloads/${filename}\n\nIt will appear on downloads.html in 2 minutes!`, 'success');
+            
+            document.getElementById('uploadForm').reset();
+            document.getElementById('suggestedName').value = '';
+            loadStats();
+        }
+
+        document.getElementById('fileTitle').addEventListener('change', function() {
+            const suggested = this.value.toLowerCase().replace(/\s+/g, '-') + '.file';
+            document.getElementById('suggestedName').value = suggested;
+        });
+
+        function showAlert(msg, type) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = msg;
+            container.insertBefore(alert, container.firstChild);
+            setTimeout(() => alert.remove(), 6000);
+        }
+
+        function loadStats() {
+            const files = JSON.parse(localStorage.getItem('dems_files') || '[]');
+            document.getElementById('totalFiles').textContent = 13 + files.length;
+            document.getElementById('uploadedToday').textContent = localStorage.getItem('uploaded_today') || '0';
+        }
+
+        function copy(text) {
+            navigator.clipboard.writeText(text);
+            alert('Copied: ' + text);
+        }
+
+        window.addEventListener('load', loadStats);
+    </script>
+</body>
+</html>
