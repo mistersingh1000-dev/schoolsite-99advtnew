@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - DEMS School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .student-info {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .info-item strong {
+            color: #333;
+            font-size: 16px;
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .file-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .file-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .file-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .file-card h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .file-meta {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .file-meta p {
+            margin: 5px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: #f0f4ff;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .open-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-section select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            background: white;
+        }
+
+        .filter-section select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>👨‍🎓 Student Dashboard</h1>
+                <p id="welcomeName"></p>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="student-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <p>Student Name</p>
+                    <strong id="name">-</strong>
+                </div>
+                <div class="info-item">
+                    <p>Roll/ID Number</p>
+                    <strong id="rollNumber">-</strong>
+                </div>
+                <div class="info-item">
+                    <p>Class</p>
+                    <strong id="class">-</strong>
+                </div>
+                <div class="info-item">
+                    <p>Email</p>
+                    <strong id="email">-</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('all')">📁 All Materials</button>
+            <button class="tab-btn" onclick="switchTab('exam')">📝 Exam Papers</button>
+            <button class="tab-btn" onclick="switchTab('result')">📊 Results</button>
+            <button class="tab-btn" onclick="switchTab('calendar')">📅 Calendar</button>
+            <button class="tab-btn" onclick="switchTab('document')">📄 Documents</button>
+            <button class="tab-btn" onclick="switchTab('video')">🎥 Videos</button>
+            <button class="tab-btn" onclick="switchTab('image')">🖼️ Images</button>
+        </div>
+
+        <!-- All Materials Tab -->
+        <div id="all" class="tab-content active">
+            <div class="filter-section">
+                <label for="classFilter" style="font-weight: 600; color: #333;">Filter by Class:</label>
+                <select id="classFilter" onchange="filterFiles()">
+                    <option value="">All Classes</option>
+                    <option value="All">For All Classes</option>
+                    <option value="1">Class 1</option>
+                    <option value="2">Class 2</option>
+                    <option value="3">Class 3</option>
+                    <option value="4">Class 4</option>
+                    <option value="5">Class 5</option>
+                    <option value="6">Class 6</option>
+                    <option value="7">Class 7</option>
+                    <option value="8">Class 8</option>
+                </select>
+            </div>
+            <div id="all-content" class="files-grid"></div>
+        </div>
+
+        <!-- Exam Papers Tab -->
+        <div id="exam" class="tab-content">
+            <div id="exam-content" class="files-grid"></div>
+        </div>
+
+        <!-- Results Tab -->
+        <div id="result" class="tab-content">
+            <div id="result-content" class="files-grid"></div>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="calendar" class="tab-content">
+            <div id="calendar-content" class="files-grid"></div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div id="document" class="tab-content">
+            <div id="document-content" class="files-grid"></div>
+        </div>
+
+        <!-- Videos Tab -->
+        <div id="video" class="tab-content">
+            <div id="video-content" class="files-grid"></div>
+        </div>
+
+        <!-- Images Tab -->
+        <div id="image" class="tab-content">
+            <div id="image-content" class="files-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const categoryIcons = {
+            exam: '📝',
+            result: '📊',
+            calendar: '📅',
+            circular: '📢',
+            document: '📄',
+            video: '🎥',
+            image: '🖼️',
+            other: '📁'
+        };
+
+        // Check if student is logged in
+        if (localStorage.getItem('studentLoggedIn') !== 'true') {
+            window.location.href = 'student-login.html';
+        }
+
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+
+        // Display student info
+        document.getElementById('name').textContent = currentStudent.name;
+        document.getElementById('rollNumber').textContent = currentStudent.rollNumber;
+        document.getElementById('class').textContent = `Class ${currentStudent.class}`;
+        document.getElementById('email').textContent = currentStudent.email || 'Not provided';
+        document.getElementById('welcomeName').textContent = `Welcome, ${currentStudent.name}!`;
+
+        function getStudentFiles() {
+            const allFiles = JSON.parse(localStorage.getItem('files')) || [];
+            // Show files for this class or files marked for all classes
+            return allFiles.filter(f => 
+                f.class === 'All' || f.class === '' || f.class === currentStudent.class
+            );
+        }
+
+        function displayFiles(category = null) {
+            const files = getStudentFiles();
+            const filtered = category ? files.filter(f => f.category === category) : files;
+
+            const html = filtered.length === 0 
+                ? '<div style="grid-column: 1/-1;" class="empty-state"><p>📭 No files available</p></div>'
+                : filtered.map(file => `
+                    <div class="file-card">
+                        <span class="file-icon">${categoryIcons[file.category] || '📁'}</span>
+                        <h3>${file.title}</h3>
+                        <div class="file-meta">
+                            <p>📚 Class: ${file.class === 'All' ? 'All Classes' : 'Class ' + file.class}</p>
+                            <p>📅 ${file.uploadedAt}</p>
+                        </div>
+                        <span class="badge">${file.category.toUpperCase()}</span><br>
+                        <a href="${file.url}" target="_blank" class="open-btn">🔗 Open File</a>
+                    </div>
+                `).join('');
+
+            if (category) {
+                document.getElementById(category + '-content').innerHTML = html;
+            } else {
+                document.getElementById('all-content').innerHTML = html;
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'all') displayFiles();
+            else if (tabName === 'exam') displayFiles('exam');
+            else if (tabName === 'result') displayFiles('result');
+            else if (tabName === 'calendar') displayFiles('calendar');
+            else if (tabName === 'document') displayFiles('document');
+            else if (tabName === 'video') displayFiles('video');
+            else if (tabName === 'image') displayFiles('image');
+        }
+
+        function filterFiles() {
+            displayFiles();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('studentLoggedIn');
+                localStorage.removeItem('currentStudent');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initial display
+        displayFiles();
+        displayFiles('exam');
+        displayFiles('result');
+        displayFiles('calendar');
+        displayFiles('document');
+        displayFiles('video');
+        displayFiles('image');
+    </script>
+</body>
+</html>

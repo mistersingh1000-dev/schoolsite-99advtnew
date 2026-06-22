@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal Dashboard - DEMS School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn.danger {
+            background: #e74c3c;
+        }
+
+        .btn.danger:hover {
+            background: #c0392b;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .students-list {
+            margin-top: 20px;
+        }
+
+        .student-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .student-info strong {
+            color: #333;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th {
+            background: #f0f0f0;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .file-upload-area:hover {
+            background: #f0f4ff;
+            border-color: #764ba2;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>👨‍💼 Principal Dashboard</h1>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('students')">👨‍🎓 Manage Students</button>
+            <button class="tab-btn" onclick="switchTab('files')">📁 Upload Files</button>
+            <button class="tab-btn" onclick="switchTab('view-files')">📄 View All Files</button>
+        </div>
+
+        <!-- Students Management Tab -->
+        <div id="students" class="tab-content active">
+            <div class="card">
+                <h2>➕ Create New Student</h2>
+                <div id="studentAlert" class="alert"></div>
+
+                <form id="createStudentForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Student Name</label>
+                            <input type="text" id="studentName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Roll/ID Number</label>
+                            <input type="text" id="studentId" placeholder="e.g., 001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="studentUsername" placeholder="Username for login" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="studentPassword" placeholder="Set password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Class</label>
+                            <select id="studentClass" required>
+                                <option value="">Select Class</option>
+                                <option value="1">Class 1</option>
+                                <option value="2">Class 2</option>
+                                <option value="3">Class 3</option>
+                                <option value="4">Class 4</option>
+                                <option value="5">Class 5</option>
+                                <option value="6">Class 6</option>
+                                <option value="7">Class 7</option>
+                                <option value="8">Class 8</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Email (Optional)</label>
+                            <input type="email" id="studentEmail" placeholder="Email address">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn">✅ Create Student</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>📋 All Students</h2>
+                <div id="studentsList" class="students-list"></div>
+            </div>
+        </div>
+
+        <!-- Files Upload Tab -->
+        <div id="files" class="tab-content">
+            <div class="card">
+                <h2>📤 Upload Files/Documents</h2>
+                <div id="uploadAlert" class="alert"></div>
+
+                <form id="uploadFileForm">
+                    <div class="form-group">
+                        <label>File Category</label>
+                        <select id="fileCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="exam">📝 Exam Papers</option>
+                            <option value="result">📊 Results</option>
+                            <option value="calendar">📅 Calendar</option>
+                            <option value="circular">📢 Circulars</option>
+                            <option value="document">📄 Documents</option>
+                            <option value="video">🎥 Videos</option>
+                            <option value="image">🖼️ Images</option>
+                            <option value="other">📁 Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>File Title/Description</label>
+                        <input type="text" id="fileTitle" placeholder="e.g., Math Final Exam 2025" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>File URL or Link</label>
+                        <input type="url" id="fileUrl" placeholder="https://example.com/file.pdf" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Class (Select for specific class, leave empty for all)</label>
+                        <select id="fileClass">
+                            <option value="">For All Classes</option>
+                            <option value="1">Class 1</option>
+                            <option value="2">Class 2</option>
+                            <option value="3">Class 3</option>
+                            <option value="4">Class 4</option>
+                            <option value="5">Class 5</option>
+                            <option value="6">Class 6</option>
+                            <option value="7">Class 7</option>
+                            <option value="8">Class 8</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn">📤 Upload File</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View Files Tab -->
+        <div id="view-files" class="tab-content">
+            <div class="card">
+                <h2>📁 All Uploaded Files</h2>
+                <div id="filesList" class="grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if principal is logged in
+        if (localStorage.getItem('principalLoggedIn') !== 'true') {
+            window.location.href = 'principal-login.html';
+        }
+
+        // Create Student
+        document.getElementById('createStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const id = document.getElementById('studentId').value;
+            const username = document.getElementById('studentUsername').value;
+            const password = document.getElementById('studentPassword').value;
+            const classValue = document.getElementById('studentClass').value;
+            const email = document.getElementById('studentEmail').value;
+
+            // Check if username already exists
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            if (students.some(s => s.username === username)) {
+                showAlert('studentAlert', '❌ Username already exists!', 'error');
+                return;
+            }
+
+            const student = {
+                id: Date.now(),
+                name,
+                rollNumber: id,
+                username,
+                password,
+                class: classValue,
+                email,
+                createdAt: new Date().toLocaleDateString()
+            };
+
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            
+            showAlert('studentAlert', '✅ Student created successfully!', 'success');
+            document.getElementById('createStudentForm').reset();
+            
+            setTimeout(displayStudents, 1500);
+        });
+
+        // Upload File
+        document.getElementById('uploadFileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const category = document.getElementById('fileCategory').value;
+            const title = document.getElementById('fileTitle').value;
+            const url = document.getElementById('fileUrl').value;
+            const classValue = document.getElementById('fileClass').value;
+
+            let files = JSON.parse(localStorage.getItem('files')) || [];
+
+            const file = {
+                id: Date.now(),
+                category,
+                title,
+                url,
+                class: classValue || 'All',
+                uploadedAt: new Date().toLocaleDateString(),
+                uploadedBy: localStorage.getItem('principalName')
+            };
+
+            files.push(file);
+            localStorage.setItem('files', JSON.stringify(files));
+            
+            showAlert('uploadAlert', '✅ File uploaded successfully!', 'success');
+            document.getElementById('uploadFileForm').reset();
+            
+            setTimeout(() => {
+                switchTab('view-files');
+                displayFiles();
+            }, 1500);
+        });
+
+        function displayStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const list = document.getElementById('studentsList');
+
+            if (students.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 30px;">No students created yet</p>';
+                return;
+            }
+
+            list.innerHTML = students.map(student => `
+                <div class="student-item">
+                    <div class="student-info">
+                        <p><strong>${student.name}</strong> <span class="badge badge-success">ID: ${student.rollNumber}</span></p>
+                        <p>📚 Class ${student.class} | 👤 @${student.username}</p>
+                        <p style="font-size: 12px; color: #999;">Created: ${student.createdAt}</p>
+                    </div>
+                    <div class="student-actions">
+                        <button class="btn secondary" onclick="deleteStudent(${student.id})">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayFiles() {
+            const files = JSON.parse(localStorage.getItem('files')) || [];
+            const list = document.getElementById('filesList');
+
+            if (files.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 30px; grid-column: 1/-1;">No files uploaded yet</p>';
+                return;
+            }
+
+            const categoryIcons = {
+                exam: '📝',
+                result: '📊',
+                calendar: '📅',
+                circular: '📢',
+                document: '📄',
+                video: '🎥',
+                image: '🖼️',
+                other: '📁'
+            };
+
+            list.innerHTML = files.map(file => `
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 40px; margin-bottom: 10px;">
+                        ${categoryIcons[file.category] || '📁'}
+                    </div>
+                    <h4>${file.title}</h4>
+                    <p style="color: #666; font-size: 12px; margin: 10px 0;">
+                        Class: <strong>${file.class}</strong><br>
+                        Uploaded: ${file.uploadedAt}
+                    </p>
+                    <a href="${file.url}" target="_blank" class="btn" style="margin-top: 10px;">🔗 Open File</a>
+                    <button class="btn danger" style="margin-top: 10px;" onclick="deleteFile(${file.id})">🗑️ Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                let students = JSON.parse(localStorage.getItem('students')) || [];
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                displayStudents();
+            }
+        }
+
+        function deleteFile(id) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                let files = JSON.parse(localStorage.getItem('files')) || [];
+                files = files.filter(f => f.id !== id);
+                localStorage.setItem('files', JSON.stringify(files));
+                displayFiles();
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'students') displayStudents();
+            if (tabName === 'view-files') displayFiles();
+        }
+
+        function showAlert(elementId, message, type) {
+            const alert = document.getElementById(elementId);
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('principalLoggedIn');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initial display
+        displayStudents();
+        displayFiles();
+    </script>
+</body>
+</html>
