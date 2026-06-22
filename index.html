@@ -470,6 +470,98 @@
         </div>
       </section>
 
+      <!-- SECTION: Robotics -->
+      <section class="section premium-gallery" id="robotics">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+              <div class="section-heading premium-heading">
+                <h6>Innovation & Technology</h6>
+                <h2>Robotics</h2>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-grid" data-aos="fade-up" data-aos-delay="150">
+            <img src="assets/images/dems/robotics-1.jpg" alt="Students playing sack race during sports day at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-2.jpg" alt="Students with fresh fruits during outdoor activity at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-3.jpg" alt="Students playing outdoor games and sports at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-4.jpg" alt="Teacher guiding students in environmental project at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-5.jpg" alt="Students displaying environmental awareness artwork at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-6.jpg" alt="Students collaborating on creative project at DEMS" loading="lazy">
+            <img src="assets/images/dems/robotics-7.jpg" alt="Students engaged in collaborative learning activity at DEMS" loading="lazy">
+          </div>
+        </div>
+      </section>
+
+      <style>
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          margin-bottom: 40px;
+        }
+        
+        .gallery-grid img {
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+          border-radius: 12px;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        
+        .gallery-grid img:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-grid img:nth-child(5) {
+          grid-column: 2;
+        }
+        
+        .gallery-grid img:nth-child(6) {
+          grid-column: 3;
+        }
+        
+        .gallery-grid img:nth-child(7) {
+          grid-column: 4;
+        }
+        
+        @media (max-width: 1024px) {
+          .gallery-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+          .gallery-grid img:nth-child(5) {
+            grid-column: 1;
+          }
+          .gallery-grid img:nth-child(6) {
+            grid-column: 2;
+          }
+          .gallery-grid img:nth-child(7) {
+            grid-column: 3;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .gallery-grid img {
+            height: 250px;
+          }
+          .gallery-grid img:nth-child(5) {
+            grid-column: 1;
+          }
+          .gallery-grid img:nth-child(6) {
+            grid-column: 2;
+          }
+          .gallery-grid img:nth-child(7) {
+            grid-column: 1;
+          }
+        }
+      </style>
+
       <section class="section admission-cta" id="admission">
         <div class="container">
           <div class="cta-panel" data-aos="zoom-in">
